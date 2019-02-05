@@ -26,8 +26,15 @@ def subl(*args):
             window.run_command('focus_neighboring_group')
             window.focus_view(view)
 
-        sublime_plugin.on_activated(view.id())
-        sublime_plugin.on_activated_async(view.id())
+        # TODO: I saw such error:
+        # Traceback (most recent call last):
+        #   File "/.../Application Support/Sublime Text 3/Installed Packages/ProjectManager.sublime-package/project_manager.py", line 29, in on_activated
+        # AttributeError: 'NoneType' object has no attribute 'id'
+        #
+        # That is the purpose of 'if condition' below
+        if view:
+            sublime_plugin.on_activated(view.id())
+            sublime_plugin.on_activated_async(view.id())
 
     sublime.set_timeout(on_activated, 300)
 
